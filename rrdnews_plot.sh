@@ -341,17 +341,17 @@ $rrdbin graph --start $start --width $width --height $height --vertical-label "L
          COMMENT:"Maximum" \
          COMMENT:"Average" \
          COMMENT:"Minimum\l" \
-         LINE1:linea#0000FF:"Total      " \
+         LINE1:linea#0000FF:"Total       " \
          GPRINT:ds0lst:"%6.2lf" \
          GPRINT:ds0max:" %6.2lf" \
          GPRINT:ds0avg:" %6.2lf" \
          GPRINT:ds0min:" %6.2lf\l" \
-         LINE1:lineb#00FF00:"NNRP      " \
+         LINE1:lineb#00FF00:"NNRP       " \
          GPRINT:ds1lst:" %6.2lf" \
          GPRINT:ds1max:" %6.2lf" \
          GPRINT:ds1avg:" %6.2lf" \
          GPRINT:ds1min:" %6.2lf\l" \
-	 LINE1:linec#FF0000:"NNTP      " \
+	 LINE1:linec#FF0000:"NNTP       " \
          GPRINT:ds2lst:" %6.2lf" \
          GPRINT:ds2max:" %6.2lf" \
          GPRINT:ds2avg:" %6.2lf" \
