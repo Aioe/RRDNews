@@ -2,13 +2,14 @@
 
 
 rrdbin="/usr/bin/rrdtool"
-
-width=670
-height=400
+width="670"
+height="400"
 rrddir="/usr/system/news/getflow/spool/rrd/"
 pngdir="/var/www/html/news/statistics/"
 coverdir="/var/www/html/news/statistics/rrdcover/"
-# logcli="--upper-limit 100 --rigid"
+# let logcli="--upper-limit 100 --rigid"
+coverwidth=300
+coverheight=200
 
 logcli=""
 
@@ -100,8 +101,8 @@ do
         file4="$coverdir/nntp-articles.png"
 	file5="$coverdir/nntp-logs.png"
         let start=$day
-	let width=300
-        let height=200
+	let width=$coverwidth
+        let height=$coverheight
         if [ "$TYPE" != "daily" -a "$TYPE" != "all"  ];
         then 
                 continue
