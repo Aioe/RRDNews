@@ -8,6 +8,9 @@ height=400
 rrddir="/usr/system/news/getflow/spool/rrd/"
 pngdir="/var/www/html/news/statistics/"
 coverdir="/var/www/html/news/statistics/rrdcover/"
+# logcli="--upper-limit 100 --rigid"
+
+logcli=""
 
 ##############################################################################################################
 
@@ -109,6 +112,8 @@ do
          DEF:linea=$rrdfile_connections:total:LAST \
          DEF:lineb=$rrdfile_connections:clear:LAST \
          DEF:linec=$rrdfile_connections:ssl:LAST   \
+	 DEF:lined=$rrdfile_connections:nntp:LAST  \
+	 DEF:linee=$rrdfile_connections:news:LAST   \
    	 VDEF:ds0max=linea,MAXIMUM \
     	 VDEF:ds0avg=linea,AVERAGE \
 	 VDEF:ds0min=linea,MINIMUM \
@@ -121,6 +126,14 @@ do
          VDEF:ds2avg=linec,AVERAGE \
          VDEF:ds2min=linec,MINIMUM \
 	 VDEF:ds2lst=linec,LAST \
+         VDEF:ds3max=lined,MAXIMUM \
+         VDEF:ds3avg=lined,AVERAGE \
+         VDEF:ds3min=lined,MINIMUM \
+         VDEF:ds3lst=lined,LAST \
+         VDEF:ds4max=linee,MAXIMUM \
+         VDEF:ds4avg=linee,AVERAGE \
+         VDEF:ds4min=linee,MINIMUM \
+         VDEF:ds4lst=linee,LAST \
 	 COMMENT:"       " \
 	 COMMENT:"Current" \
 	 COMMENT:"Maximum" \
@@ -137,7 +150,17 @@ do
 	 GPRINT:ds2lst:" %6.2lf" \
          GPRINT:ds2max:" %6.2lf" \
          GPRINT:ds2avg:" %6.2lf" \
-         GPRINT:ds2min:" %6.2lf\l" 
+         GPRINT:ds2min:" %6.2lf\l" \
+         LINE2:linec#444444:"NNTP " \
+         GPRINT:ds3lst:" %6.2lf" \
+         GPRINT:ds3max:" %6.2lf" \
+         GPRINT:ds3avg:" %6.2lf" \
+         GPRINT:ds3min:" %6.2lf\l" \
+         LINE2:linec#666666:"NEWS " \
+         GPRINT:ds4lst:" %6.2lf" \
+         GPRINT:ds4max:" %6.2lf" \
+         GPRINT:ds4avg:" %6.2lf" \
+         GPRINT:ds4min:" %6.2lf\l"
 
     $rrdbin graph --start $start  --width $width --height $height --vertical-label "Connections" --title "Connections with peers" $file2  \
          DEF:lined=$rrdfile_programs:innfeed:LAST \
@@ -320,10 +343,12 @@ $rrdbin graph --start $start --width $width --height $height --vertical-label "A
          GPRINT:ds2min:" %6.2lf\l" 
 
 
-$rrdbin graph --start $start --width $width --height $height --vertical-label "Log lines per second" --title "Log lines per protocol" $file5 \
+$rrdbin graph --start $start --width $width --height $height --vertical-label "Log lines per second" $logcli --title "Log lines per protocol" $file5 \
          DEF:linea=$rrdfile_log:total:LAST \
          DEF:lineb=$rrdfile_log:nnrpd:LAST  \
-         DEF:linec=$rrdfile_log:other:LAST \
+         DEF:linec=$rrdfile_log:innfeed:LAST \
+	 DEF:lined=$rrdfile_log:innd:LAST \
+	 DEF:linee=$rrdfile_log:other:LAST \
          VDEF:ds0max=linea,MAXIMUM \
          VDEF:ds0avg=linea,AVERAGE \
          VDEF:ds0min=linea,MINIMUM \
@@ -336,6 +361,14 @@ $rrdbin graph --start $start --width $width --height $height --vertical-label "L
          VDEF:ds2avg=linec,AVERAGE \
          VDEF:ds2min=linec,MINIMUM \
          VDEF:ds2lst=linec,LAST \
+         VDEF:ds3max=lined,MAXIMUM \
+         VDEF:ds3avg=lined,AVERAGE \
+         VDEF:ds3min=lined,MINIMUM \
+         VDEF:ds3lst=lined,LAST \
+         VDEF:ds4max=linee,MAXIMUM \
+         VDEF:ds4avg=linee,AVERAGE \
+         VDEF:ds4min=linee,MINIMUM \
+         VDEF:ds4lst=linee,LAST \
          COMMENT:"             " \
          COMMENT:"Current" \
          COMMENT:"Maximum" \
@@ -351,11 +384,21 @@ $rrdbin graph --start $start --width $width --height $height --vertical-label "L
          GPRINT:ds1max:" %6.2lf" \
          GPRINT:ds1avg:" %6.2lf" \
          GPRINT:ds1min:" %6.2lf\l" \
-	 LINE1:linec#FF0000:"NNTP       " \
+	 LINE1:linec#FF6666:"innfeed    " \
          GPRINT:ds2lst:" %6.2lf" \
          GPRINT:ds2max:" %6.2lf" \
          GPRINT:ds2avg:" %6.2lf" \
-         GPRINT:ds2min:" %6.2lf\l"
+         GPRINT:ds2min:" %6.2lf\l" \
+         LINE1:lined#FF3300:"innd       " \
+         GPRINT:ds3lst:" %6.2lf" \
+         GPRINT:ds3max:" %6.2lf" \
+         GPRINT:ds3avg:" %6.2lf" \
+         GPRINT:ds3min:" %6.2lf\l" \
+         LINE1:linee#FF0066:"Other      " \
+         GPRINT:ds4lst:" %6.2lf" \
+         GPRINT:ds4max:" %6.2lf" \
+         GPRINT:ds4avg:" %6.2lf" \
+         GPRINT:ds4min:" %6.2lf\l"
 
 
 done

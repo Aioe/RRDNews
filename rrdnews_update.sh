@@ -17,8 +17,10 @@ logrrd="$destdir/nntp-log.rrd"
 total=$(echo `ps auxf | grep nnrpd | wc -l`)
 ssl=$(echo `ps auxf | grep nnrpd-ssl | wc -l`)
 let clear=$total-$ssl
+nntp=$(echo `netstat -tnp | grep 46.165.242.75 | grep -e "nnrpd*" | wc -l`)
+news=$(echo `netstat -tnp | grep 46.165.242.91 | grep -e "nnrpd*" | wc -l`)
 
-$rrdbin update $connections N:$clear:$total:$ssl
+$rrdbin update $connections N:$clear:$total:$ssl:$nntp:$news
 
 #######################################################################################################
 
@@ -59,10 +61,13 @@ rejected=$(echo `cat /var/log/news/news | grep " - " | wc -l`)
 $rrdbin update $cleanfeed N:$accepted:$warning:$rejected
 
 ##########################################################################################################
+# DS:total:DERIVE:600:0:99999 DS:nnrpd:DERIVE:600:0:99999 DS:innfeed:DERIVE:600:0:99999 DS:innd:DERIVE:600:0:99999 DS:other
 
 totalines=$(echo `cat /var/log/news/news.notice | wc -l`)
 nnrpdlines=$(echo `cat /var/log/news/news.notice | grep "nnrpd*" | wc -l`)
-let otherlines=$totalines-$nnrpdlines
+innfeedlines=$(echo `cat /var/log/news/news.notice | grep "innfeed" | wc -l`)
+inndlines=$(echo `cat /var/log/news/news.notice | grep "innd" | wc -l`)
+let otherlines=$totalines-$nnrpdlines-$innfeedlines-$inndlines
 
-$rrdbin update $logrrd N:$totalines:$nnrpdlines:$otherlines
+$rrdbin update $logrrd N:$totalines:$nnrpdlines:$innfeedlines:$inndlines:$otherlines
 
