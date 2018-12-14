@@ -151,12 +151,12 @@ do
          GPRINT:ds2max:" %6.2lf" \
          GPRINT:ds2avg:" %6.2lf" \
          GPRINT:ds2min:" %6.2lf\l" \
-         LINE2:linec#444444:"NNTP " \
+         LINE2:lined#444444:"NNTP " \
          GPRINT:ds3lst:" %6.2lf" \
          GPRINT:ds3max:" %6.2lf" \
          GPRINT:ds3avg:" %6.2lf" \
          GPRINT:ds3min:" %6.2lf\l" \
-         LINE2:linec#666666:"NEWS " \
+         LINE2:linee#666666:"NEWS " \
          GPRINT:ds4lst:" %6.2lf" \
          GPRINT:ds4max:" %6.2lf" \
          GPRINT:ds4avg:" %6.2lf" \
